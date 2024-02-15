@@ -55,54 +55,15 @@
 </template>
 
 <script setup>
-// import { useDisplay } from 'vuetify' // 手機版
 import { ref } from 'vue'
-import { useUserStore } from '@/store/user'
-import { useApi } from '@/composables/axios'
 import Register from '@/components/UserRegister.vue'
 import Login from '@/components/UserLogin.vue'
-import { useSnackbar } from 'vuetify-use-dialog'
-import { useRouter } from 'vue-router'
 
 const tab = ref('one')
-
-const { apiAuth } = useApi()
-const router = useRouter()
-const createSnackbar = useSnackbar()
-const user = useUserStore()
 
 // 導覽列項目
 const navItems = [
   // { to: '/register', text: '註冊', icon: 'mdi-account-plus' },
-  { to: '/login', text: '登入', icon: 'mdi-login', show: !user.isLogin }
+  { to: '/login', text: '登入', icon: 'mdi-login' }
 ]
-
-const logout = async () => {
-  try {
-    await apiAuth.delete('/users/logout')
-    user.logout()
-    createSnackbar({
-      text: '登出成功',
-      showCloseButton: false,
-      snackbarProps: {
-        timeout: 2000,
-        color: 'green',
-        location: 'bottom'
-      }
-    })
-    router.push('/')
-  } catch (error) {
-    const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
-    createSnackbar({
-      text,
-      showCloseButton: false,
-      snackbarProps: {
-        timeout: 2000,
-        color: 'red',
-        location: 'bottom'
-      }
-    })
-  }
-}
-
 </script>

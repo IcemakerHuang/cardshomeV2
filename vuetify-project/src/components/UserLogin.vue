@@ -4,21 +4,21 @@
   <VCol cols="12">
       <VForm :disabled="isSubmitting" @submit.prevent="submit">
         <VTextField
-        label="帳號"
-        minlength="4" maxlength="20" counter
-        prepend-inner-icon="mdi-account"
-        append-icon="none"
-        v-model="account.value.value"
-        :error-messages="account.errorMessage.value"
+          label="帳號"
+          minlength="4" maxlength="20" counter
+          prepend-inner-icon="mdi-account"
+          append-icon="none"
+          v-model="account.value.value"
+          :error-messages="account.errorMessage.value"
         ></VTextField>
         <VTextField
-        label="密碼" :type="show3 ? 'text' : 'password'"
-        :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append="show3 = !show3"
-        minlength="4" maxlength="20" counter
-        prepend-inner-icon="mdi-lock"
-        v-model="password.value.value"
-        :error-messages="password.errorMessage.value"
+          label="密碼" :type="show3 ? 'text' : 'password'"
+          :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="show3 = !show3"
+          minlength="4" maxlength="20" counter
+          prepend-inner-icon="mdi-lock"
+          v-model="password.value.value"
+          :error-messages="password.errorMessage.value"
         ></VTextField>
         <VBtn type="submit" color="green">登入</VBtn>
       </VForm>
@@ -30,13 +30,19 @@
 <script setup>
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
-import { api } from '@/plugins/axios'
+// import { api } from '@/plugins/axios'
+import { useApi } from '@/composables/axios'
+import { useUserStore } from '@/store/user'
 import { useRouter } from 'vue-router'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { ref } from 'vue'
 
+const { api } = useApi()
+
 const router = useRouter()
 const createSnackbar = useSnackbar()
+
+const user = useUserStore()
 
 const show3 = ref(false)
 
@@ -63,10 +69,11 @@ const password = useField('password')
 
 const submit = handleSubmit(async (values) => {
   try {
-    await api.post('/users/login', {
+    const { data } = await api.post('/users/login', {
       account: values.account,
       password: values.password
     })
+    user.login(data.result)
     createSnackbar({
       text: '登入成功',
       showCloseButton: false,

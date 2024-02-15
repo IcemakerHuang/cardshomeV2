@@ -54,10 +54,13 @@
 import validator from 'validator'
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
-import { api } from '@/plugins/axios'
+// import { api } from '@/plugins/axios'
+import { useApi } from '@/composables/axios'
 import { useRouter } from 'vue-router'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { ref } from 'vue'
+
+const { api } = useApi()
 
 const router = useRouter()
 const createSnackbar = useSnackbar()
