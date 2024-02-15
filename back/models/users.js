@@ -44,7 +44,7 @@ const schema = new Schema({
     type: String,
     required: [true, '缺少使用者密碼']
   },
-  phone:{
+  phone: {
     type: String,
     required: [true, '缺少使用者電話'],
     unique: true,
@@ -69,6 +69,13 @@ const schema = new Schema({
   timestamps: true, // 為了產生時間戳記 (createdAt、updatedAt) ，用途：為了讓前端能夠知道資料的建立時間與更新時間
   versionKey: false // 為了避免 __v 這個欄位被加入到資料庫中
 })
+
+schema.virtual('cartQuantity')
+  .get(function () {
+    return this.cart.reduce((total, current) => {
+      return total + current.quantity
+    }, 0)
+  })
 
 // schema.pre() 的存在意義
 // schema.pre('save', function (next) {}) 是在保存文檔到 MongoDB 數據庫之前先執行的函數。
