@@ -20,7 +20,7 @@
   <VSpacer></VSpacer>
   <!-- 電腦版導覽列 -->
     <template v-for="item in navItems" :key="item.to">
-      <VBtn :to="item.to" :prepend-icon="item.icon">{{ item.text }}
+      <VBtn :to="item.to" :prepend-icon="item.icon" v-if="!user.isLogin" @click="logout">{{ item.text }}
         <v-dialog
         v-model="dialog"
         activator="parent"
@@ -46,6 +46,7 @@
         </v-card>
       </v-dialog>
       </VBtn>
+      <VBtn prepend-icon="mdi-logout" v-if="user.isLogin" @click="logout">登出</VBtn>
     </template>
 </VAppBar>
   <!-- 頁面內容 -->
