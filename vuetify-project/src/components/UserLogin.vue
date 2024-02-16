@@ -20,7 +20,7 @@
           v-model="password.value.value"
           :error-messages="password.errorMessage.value"
         ></VTextField>
-        <VBtn type="submit" color="green">登入</VBtn>
+        <VBtn type="submit" color="green" @click="dialog = false">登入</VBtn>
       </VForm>
     </VCol>
   </VRow>

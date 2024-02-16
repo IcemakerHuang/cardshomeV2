@@ -70,8 +70,9 @@ const schema = new Schema({
   versionKey: false // 為了避免 __v 這個欄位被加入到資料庫中
 })
 
+// 虛擬欄位 (類似 vue 的 computed)，用來計算購物車中的商品數量
 schema.virtual('cartQuantity')
-  .get(function () {
+  .get(function () { // 計算購物車陣列的加總
     return this.cart.reduce((total, current) => {
       return total + current.quantity
     }, 0)

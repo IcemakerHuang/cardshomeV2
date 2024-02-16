@@ -50,24 +50,25 @@ passport.use('jwt', new passportJWT.Strategy({
   jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.JWT_SECRET,
   passReqToCallback: true,
-  // 略過過期檢查
-  ignoreExpiration: true
+  ignoreExpiration: true // 略過過期檢查：因為某些路徑要允許過期的JWT，不然會出錯
 }, async (req, payload, done) => {
   try {
     // 檢查過期
-    // jwt 過期時間單位是秒，node.js 日期單位是毫秒
+    // jwt 過期時間單位是秒，node.js 日期單位是毫秒，所以要乘以 1000
     const expired = payload.exp * 1000 < new Date().getTime()
 
+    // 以下是驗證:
     /*
-      http://localhost:4000/users/test?aaa=111&bbb=2
+      如果請求網址是： http://localhost:4000/users/test?aaa=111&bbb=2
+      以下是相關參數：
       req.originalUrl = /users/test?aaa=111&bbb=2
       req.baseUrl = /users
       req.path = /test
       req.query = { aaa: 111, bbb: 222 }
     */
     const url = req.baseUrl + req.path
-    if (expired && url !== '/users/extend' && url !== '/users/logout') {
-      throw new Error('EXPIRED')
+    if (expired && url !== '/users/extend' && url !== '/users/logout') { // 讓這兩個 url 允許過期路徑
+      throw new Error('EXPIRED') // 非兩個 url -> 顯示過期
     }
 
     // const token = req.headers.authorization.split(' ')

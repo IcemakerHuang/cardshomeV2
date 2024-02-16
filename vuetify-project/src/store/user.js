@@ -31,7 +31,7 @@ export const useUserStore = defineStore('user', () => {
     return role.value === UserRole.ADMIN
   })
 
-  const getProfile = async () => {
+  const getProfile = async () => { // 跟攔截器有關
     if (token.value.length === 0) return
 
     try {

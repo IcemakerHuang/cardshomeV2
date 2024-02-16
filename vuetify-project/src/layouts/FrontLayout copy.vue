@@ -1,3 +1,4 @@
+<!-- -! 備份 -->
 <template>
 <!-- 導覽列 -->
 <VAppBar color="primary">
@@ -19,22 +20,14 @@
   </VContainer>
   <VSpacer></VSpacer>
   <!-- 電腦版導覽列 -->
-    <template v-for="item in navItems" :key="item.to">
+    <!-- <template v-for="item in navItems" :key="item.to">
       <VBtn :to="item.to" :prepend-icon="item.icon">{{ item.text }}
-        <v-dialog
-        v-model="dialog"
-        activator="parent"
-        width="auto"
-      >
+        <v-dialog v-model="dialog" activator="parent" width="auto">
         <v-card min-width="600">
-          <v-tabs
-            v-model="tab"
-            bg-color="primary"
-          >
+          <v-tabs v-model="tab" bg-color="primary" >
             <v-tab value="one">登入</v-tab>
             <v-tab value="two">註冊</v-tab>
           </v-tabs>
-
           <VCardText>
             <VWindow v-model="tab">
           <Register></Register>
@@ -46,15 +39,15 @@
         </v-card>
       </v-dialog>
       </VBtn>
-    </template>
+    </template> -->
 </VAppBar>
   <!-- 頁面內容 -->
-<VMain>
+<!-- <VMain>
   <RouterView></RouterView>
-</VMain>
+</VMain> -->
 </template>
 
-<script setup>
+<!-- <script setup>
 import { ref } from 'vue'
 import Register from '@/components/UserRegister.vue'
 import Login from '@/components/UserLogin.vue'
@@ -66,4 +59,4 @@ const navItems = [
   // { to: '/register', text: '註冊', icon: 'mdi-account-plus' },
   { to: '/login', text: '登入', icon: 'mdi-login' }
 ]
-</script>
+</script> -->

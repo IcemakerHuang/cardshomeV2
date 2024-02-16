@@ -4,15 +4,17 @@ import { useUserStore } from '@/store/user'
 
 const routes = [
   {
-    path: '/',
+    path: '/', // 用 layouts/FrontLayout.vue 當首頁
     component: () => import('@/layouts/FrontLayout.vue'),
-    children: [
+    children: [ // 用 front 當 iframe
       {
         path: '',
         name: 'Home',
         component: () => import('@/views/front/HomeView.vue'),
         meta: {
-          title: '購物網'
+          title: '卡底家',
+          login: false,
+          admin: false
         }
       },
       {
@@ -20,7 +22,9 @@ const routes = [
         name: 'Register',
         component: () => import('@/views/front/RegisterView.vue'),
         meta: {
-          title: '購物網 | 註冊'
+          title: '卡底家 | 註冊',
+          login: false,
+          admin: false
         }
       },
       {
@@ -28,7 +32,26 @@ const routes = [
         name: 'Login',
         component: () => import('@/views/front/LoginView.vue'),
         meta: {
-          title: '購物網 | 登入'
+          title: '卡底家 | 登入',
+          login: false,
+          admin: false
+        }
+      }
+    ]
+  },
+  { // 管理員後台頁
+    path: '/admin',
+    component: () => import('@/layouts/AdminLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'AdminHome',
+        component: () => import('@/views/admin/HomeView.vue'),
+        meta: {
+          title: '卡底家 | 管理',
+          // 進入條件:
+          login: true, // 1.要登入
+          admin: true // 2.要是管理員
         }
       }
     ]
@@ -47,7 +70,7 @@ router.afterEach((to, from) => {
 router.beforeEach(async (to, from, next) => {
   const user = useUserStore()
 
-  if (from === START_LOCATION) {
+  if (from === START_LOCATION) { // START_LOCATION 用來處理第一次進頁面時，要導向去哪裡
     await user.getProfile()
   }
 
