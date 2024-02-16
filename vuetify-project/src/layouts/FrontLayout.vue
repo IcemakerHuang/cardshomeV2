@@ -20,10 +20,11 @@
   <VSpacer></VSpacer>
   <!-- 電腦版導覽列 -->
   <!-- 根據用戶登入狀態動態顯示導航項目 -->
-  <template v-for="item in navItems" :key="item.to">
-      <!-- v-if="!user.isLogin" @click="logout" -->
+  <template v-for="item in navItems" >
+    <VBtn :to="item.to" :prepend-icon="item.icon" v-if="item.show" :key="item.to">{{ item.text }}</VBtn>
   </template>
-  <VBtn :to="item.to" :prepend-icon="item.icon" v-if="!user.isLogin">{{ item.text }} 登入
+  <VBtn v-if="!user.isLogin" to="/login" prepend-icon="mdi-login">登入
+    <!-- v-if="!user.isLogin" @click="logout" -->
     <v-dialog
       v-model="dialog"
       activator="parent"
@@ -55,7 +56,9 @@
 </VAppBar>
 <!-- 頁面內容 -->
 <VMain>
-  <RouterView></RouterView>
+  <div>
+    <RouterView></RouterView>
+  </div>
 </VMain>
 </template>
 
@@ -81,7 +84,7 @@ const user = useUserStore()
 // 利用 computed 來動態生成 navItems
 const navItems = computed(() => [
   // 登入和註冊按鈕只在用戶未登入時顯示
-  { to: '/login', text: '登入', icon: 'mdi-login', show: !user.isLogin },
+  // { to: '/login', text: '登入', icon: 'mdi-login', show: !user.isLogin },
   // { to: '/register', text: '註冊', icon: 'mdi-account-plus', show: !user.isLogin },
   // 購物車、訂單和管理按鈕只在用戶已登入時顯示
   { to: '/cart', text: '購物車', icon: 'mdi-cart', show: user.isLogin },
