@@ -22,35 +22,35 @@
   <!-- 根據用戶登入狀態動態顯示導航項目 -->
   <template v-for="item in navItems" :key="item.to">
       <!-- v-if="!user.isLogin" @click="logout" -->
-    <VBtn :to="item.to" :prepend-icon="item.icon"  v-if="item.show">{{ item.text }}
-      <v-dialog
-        v-model="dialog"
-        activator="parent"
-        width="auto"
-      >
-        <v-card min-width="600">
-          <v-tabs
-            v-model="tab"
-            bg-color="primary"
-          >
-            <v-tab value="one">登入</v-tab>
-            <v-tab value="two">註冊</v-tab>
-          </v-tabs>
-
-          <VCardText>
-            <VWindow v-model="tab">
-          <Register></Register>
-          <Login></Login>
-            </VWindow>
-          </VCardText>
-          <v-card-actions>
-            <!-- 關閉視窗按鈕 -->
-            <VBtn color="red" text @click="dialog = false">關閉</VBtn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </VBtn>
   </template>
+  <VBtn :to="item.to" :prepend-icon="item.icon" v-if="!user.isLogin">{{ item.text }} 登入
+    <v-dialog
+      v-model="dialog"
+      activator="parent"
+      width="auto"
+    >
+      <v-card min-width="600">
+        <v-tabs
+          v-model="tab"
+          bg-color="primary"
+        >
+          <v-tab value="one">登入</v-tab>
+          <v-tab value="two">註冊</v-tab>
+        </v-tabs>
+
+        <VCardText>
+          <VWindow v-model="tab">
+        <Register></Register>
+        <Login></Login>
+          </VWindow>
+        </VCardText>
+        <v-card-actions>
+          <!-- 關閉視窗按鈕 -->
+          <VBtn color="red" text @click="dialog = false">關閉</VBtn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </VBtn>
   <VBtn prepend-icon="mdi-logout" v-if="user.isLogin" @click="logout">登出</VBtn>
 </VAppBar>
 <!-- 頁面內容 -->
@@ -93,7 +93,7 @@ const logout = async () => {
   try {
     await apiAuth.delete('/users/logout')
     user.logout()
-    dialog.value = false
+    dialog.value = false // 關閉登出提示窗
     createSnackbar({
       text: '登出成功',
       showCloseButton: false,
