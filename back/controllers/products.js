@@ -75,7 +75,7 @@ export const getAll = async (req, res) => { // 管理員後台查商品getAll(�
   }
 }
 
-export const get = async (req, res) => { // 前台查商品(只有上架)
+export const get = async (req, res) => { // 前台顯示有上架的商品
   try {
     const sortBy = req.query.sortBy || 'createdAt'
     const sortOrder = parseInt(req.query.sortOrder) || -1
@@ -85,7 +85,7 @@ export const get = async (req, res) => { // 前台查商品(只有上架)
 
     const data = await products
       .find({
-        sell: true,
+        sell: true, // 跟上方 getAll 不同的地方，只顯示有上架的
         $or: [
           { name: regex },
           { description: regex }
@@ -103,7 +103,7 @@ export const get = async (req, res) => { // 前台查商品(只有上架)
       .limit(itemsPerPage === -1 ? undefined : itemsPerPage) // 全部查詢
 
     // countDocuments() 依照 () 內篩選計算總資料數
-    const total = await products.countDocuments({ sell: true })
+    const total = await products.countDocuments({ sell: true }) // 計算總共有幾個上架商品
     res.status(StatusCodes.OK).json({
       success: true,
       message: '',

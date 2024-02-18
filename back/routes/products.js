@@ -2,7 +2,7 @@
 // 然而，這些功能需要透過 HTTP 請求來觸發，這就是為什麼你需要在 back/routes/products.js 中定義路由。
 import { Router } from 'express'
 import * as auth from '../middlewares/auth.js'
-import { create, getAll, edit } from '../controllers/products.js'
+import { create, getAll, edit, get, getId } from '../controllers/products.js'
 import upload from '../middlewares/upload.js'
 import admin from '../middlewares/admin.js'
 
@@ -16,5 +16,8 @@ const router = Router()
 router.post('/', auth.jwt, admin, upload, create) // 建立新的商品
 router.get('/all', auth.jwt, admin, getAll) // 獲取所有商品的列表
 router.patch('/:id', auth.jwt, admin, upload, edit) // 根據商品 ID 編輯商品
+
+router.get('/', get) // 取首頁的商品，所以不需要驗證
+router.get('/:id', getId)
 
 export default router

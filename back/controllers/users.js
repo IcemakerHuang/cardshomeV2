@@ -118,3 +118,83 @@ export const getProfile = (req, res) => {
     })
   }
 }
+
+export const editCart = async (req, res) => { // 加入購物車
+  try {
+    // 檢查商品 id 格式對不對
+    if (!validator.isMongoId(req.body.product)) throw new Error('ID')
+
+    // 尋找購物車內有沒有傳入的商品 ID
+    const idx = req.user.cart.findIndex(item => item.product.toString() === req.body.product)
+    if (idx > -1) {
+      // 修改購物車內已有的商品數量
+      const quantity = req.user.cart[idx].quantity + parseInt(req.body.quantity)
+      // 檢查數量
+      // 小於 0，移除
+      // 大於 0，修改
+      if (quantity <= 0) {
+        req.user.cart.splice(idx, 1)
+      } else {
+        req.user.cart[idx].quantity = quantity
+      }
+    } else {
+      // 檢查商品是否存在或已下架
+      const product = await products.findById(req.body.product).orFail(new Error('NOT FOUND'))
+      if (!product.sell) {
+        throw new Error('NOT FOUND')
+      } else {
+        req.user.cart.push({ // 如果正常，加入購物車
+          product: product._id,
+          quantity: req.body.quantity
+        })
+      }
+    }
+    await req.user.save()
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: '',
+      result: req.user.cartQuantity
+    })
+  } catch (error) {
+    console.log(error)
+    if (error.name === 'CastError' || error.message === 'ID') {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        success: false,
+        message: 'ID 格式錯誤'
+      })
+    } else if (error.message === 'NOT FOUND') {
+      res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        message: '查無商品'
+      })
+    } else if (error.name === 'ValidationError') {
+      const key = Object.keys(error.errors)[0]
+      const message = error.errors[key].message
+      res.status(StatusCodes.BAD_REQUEST).json({
+        success: false,
+        message
+      })
+    } else {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        success: false,
+        message: '未知錯誤'
+      })
+    }
+  }
+}
+
+export const getCart = async (req, res) => {
+  try {
+    const result = await users.findById(req.user._id, 'cart').populate('cart.product')
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: '',
+      result: result.cart
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: '未知錯誤'
+    })
+  }
+}
