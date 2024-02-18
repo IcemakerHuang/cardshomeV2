@@ -100,7 +100,7 @@ export const get = async (req, res) => { // 前台查商品(只有上架)
       // 第 2 頁 = 11 ~ 20 = 跳過 10 筆 = (2 - 1) * 10
       // 第 3 頁 = 21 ~ 30 = 跳過 20 筆 = (3 - 1) * 10
       .skip((page - 1) * itemsPerPage)
-      .limit(itemsPerPage === -1 ? undefined : itemsPerPage)
+      .limit(itemsPerPage === -1 ? undefined : itemsPerPage) // 全部查詢
 
     // countDocuments() 依照 () 內篩選計算總資料數
     const total = await products.countDocuments({ sell: true })

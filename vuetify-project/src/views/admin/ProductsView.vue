@@ -9,6 +9,7 @@ VContainer
     VCol(cols="12")
       VBtn(color="green" @click="openDialog()") 新增商品
     VCol(cols="12")
+      //- 表格呈現
       VDataTableServer(
         v-model:items-per-page="tableItemsPerPage"
         v-model:sort-by="tableSortBy"
@@ -249,7 +250,7 @@ const tableProducts = ref([])
 const tableHeaders = [
   { title: '圖片', align: 'center', sortable: false, key: 'image' },
   { title: '名稱', align: 'center', sortable: true, key: 'name' },
-  { title: '價格', align: 'center', sortable: true, key: 'price' },
+  { title: '申請費用', align: 'center', sortable: true, key: 'price' },
   // { title: '說明', align: 'center', sortable: true, key: 'description' },
   { title: '分類', align: 'center', sortable: true, key: 'category' },
   { title: '上架', align: 'center', sortable: true, key: 'sell' },
@@ -261,9 +262,11 @@ const tableLoading = ref(true)
 const tableItemsLength = ref(0)
 // 表格搜尋文字
 const tableSearch = ref('')
+
 // 表格載入資料
-const tableLoadItems = async () => {
-  tableLoading.value = true
+// 寫 VDataTableServer 元件與已綁定動作的fn
+const tableLoadItems = async () => { // 當表格載入新資料時，執行以下程式碼
+  tableLoading.value = true // 表格開始要載入了(載入中)
   try {
     const { data } = await apiAuth.get('/products/all', {
       params: {
@@ -289,9 +292,10 @@ const tableLoadItems = async () => {
       }
     })
   }
-  tableLoading.value = false
+  tableLoading.value = false // 表格最後載入完畢了
 }
 tableLoadItems()
+
 // 表格套用搜尋
 const tableApplySearch = () => {
   tablePage.value = 1
