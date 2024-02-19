@@ -89,6 +89,7 @@ VDialog(v-model="dialog" persistent width="500px")
         VSpacer
         VBtn(color="red" :disabled="isSubmitting" @click="closeDialog") 取消
         VBtn(color="green" type="submit" :loading="isSubmitting") 送出
+div#editor
 </template>
 
 <script setup>
@@ -102,11 +103,25 @@ VDialog(v-model="dialog" persistent width="500px")
 // 上方為<template> 註解，請用搜尋找
 
 // 下方為 <script setup> 裡的程式碼
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import * as yup from 'yup' // 引入 yup 進行商品登錄表單驗證
 import { useForm, useField } from 'vee-validate' // 表單驗證套件，它可以幫助你輕鬆地驗證表單的輸入值，並管理錯誤訊息和表單狀態。
 import { useApi } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+
+const editor = ref(null) // 用于存储编辑器实例
+
+onMounted(() => {
+  ClassicEditor
+    .create(document.querySelector('#editor'))
+    .then(editorInstance => {
+      editor.value = editorInstance
+    })
+    .catch(error => {
+      console.error('Error occurred:', error)
+    })
+})
 
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
