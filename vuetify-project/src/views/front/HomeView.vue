@@ -25,7 +25,7 @@
   <!-- 認同卡列表 -->
   <v-row>
     <v-col cols="12">
-      <h1>認同卡</h1>
+      <h1>最新認同卡</h1>
     </v-col>
     <v-divider></v-divider>
     <v-col cols="12" md="6" lg="3" v-for="product in products" :key="product._id">

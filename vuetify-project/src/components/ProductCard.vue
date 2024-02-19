@@ -14,20 +14,20 @@ VCard.product-card
 
 <script setup>
 import { useApi } from '@/composables/axios'
-import { useUserStore } from '@/store/user'
+import { useUserStore } from '@/store/user' // 取使用者資料 pinia
 import { useSnackbar } from 'vuetify-use-dialog'
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router' // 取路由給按鈕判斷是否登入
 
 const { apiAuth } = useApi()
-const user = useUserStore()
+const user = useUserStore() // 取使用者資料 pinia
 const createSnackbar = useSnackbar()
 const router = useRouter()
 
 const props = defineProps(['_id', 'category', 'description', 'image', 'name', 'price', 'sell'])
 
 const addCart = async () => {
-  if (!user.isLogin) {
-    router.push('/login')
+  if (!user.isLogin) { // 如果沒有登入
+    router.push('/login') // 就改變當下的按鈕，導向登入頁
     return
   }
   try {
@@ -35,8 +35,8 @@ const addCart = async () => {
       product: props._id,
       quantity: 1
     })
-    user.cart = data.result
-    createSnackbar({
+    user.cart = data.result // 將後端的 data.result 送進 pinia 管理的 user.cart 狀態
+    createSnackbar({ // 顯示加入購物車成功
       text: '新增成功',
       showCloseButton: false,
       snackbarProps: {

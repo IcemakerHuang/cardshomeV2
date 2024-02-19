@@ -21,7 +21,10 @@
   <!-- 電腦版導覽列 -->
   <!-- 根據用戶登入狀態動態顯示導航項目 -->
   <template v-for="item in navItems" >
-    <VBtn :to="item.to" :prepend-icon="item.icon" v-if="item.show" :key="item.to">{{ item.text }}</VBtn>
+    <VBtn :to="item.to" :prepend-icon="item.icon" v-if="item.show" :key="item.to">{{ item.text }}
+      <!-- 購物車數量標籤 -->
+      <v-badge color="error" :content="user.cart" v-if="item.to === '/cart'" floating></v-badge>
+    </VBtn>
   </template>
   <VBtn v-if="!user.isLogin" to="/login" prepend-icon="mdi-login">登入
     <!-- v-if="!user.isLogin" @click="logout" -->

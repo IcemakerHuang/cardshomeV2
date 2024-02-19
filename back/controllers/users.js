@@ -1,6 +1,8 @@
 import users from '../models/users.js'
 import { StatusCodes } from 'http-status-codes'
 import jwt from 'jsonwebtoken'
+import products from '../models/products.js'
+import validator from 'validator'
 
 export const create = async (req, res) => {
   try {
@@ -153,7 +155,7 @@ export const editCart = async (req, res) => { // 加入購物車
     res.status(StatusCodes.OK).json({
       success: true,
       message: '',
-      result: req.user.cartQuantity
+      result: req.user.cartQuantity // 上述做完後，保存使用者資料給前端
     })
   } catch (error) {
     console.log(error)
