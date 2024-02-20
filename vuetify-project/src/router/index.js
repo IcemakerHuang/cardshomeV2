@@ -89,7 +89,7 @@ const routes = [
         name: 'AdminProducts',
         component: () => import('@/views/admin/ProductsView.vue'),
         meta: {
-          title: '購物網 | 商品管理',
+          title: '卡底家 | 認同卡管理',
           login: true,
           admin: true
         }
@@ -99,7 +99,17 @@ const routes = [
         name: 'AdminOrders',
         component: () => import('@/views/admin/OrdersView.vue'),
         meta: {
-          title: '購物網 | 訂單管理',
+          title: '卡底家 | 訂單管理',
+          login: true,
+          admin: true
+        }
+      },
+      {
+        path: 'article',
+        name: 'AdminArticle',
+        component: () => import('@/views/admin/ArticleView.vue'),
+        meta: {
+          title: '卡底家 | 發文管理',
           login: true,
           admin: true
         }

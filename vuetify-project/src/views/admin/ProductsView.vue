@@ -89,7 +89,7 @@ VDialog(v-model="dialog" persistent width="500px")
         VSpacer
         VBtn(color="red" :disabled="isSubmitting" @click="closeDialog") 取消
         VBtn(color="green" type="submit" :loading="isSubmitting") 送出
-div#editor
+//- div#editor
 </template>
 
 <script setup>
