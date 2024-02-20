@@ -60,7 +60,7 @@
 <!-- 頁面內容 -->
 <VMain>
   <div>
-    <RouterView></RouterView>
+    <RouterView :key="$route.path"></RouterView>
   </div>
 </VMain>
 </template>

@@ -105,7 +105,7 @@ onMounted(async () => {
     product.value.sell = data.result.sell
     product.value.category = data.result.category
 
-    document.title = `購物網 | ${product.value.name}`
+    document.title = `卡底家 | ${product.value.name}` // 商品頁的商品名稱
   } catch (error) {
     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
     createSnackbar({
