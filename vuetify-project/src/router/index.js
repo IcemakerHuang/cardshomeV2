@@ -109,7 +109,7 @@ const routes = [
         name: 'AdminArticle',
         component: () => import('@/views/admin/ArticleView.vue'),
         meta: {
-          title: '卡底家 | 發文管理',
+          title: '卡底家 | 文章管理',
           login: true,
           admin: true
         }

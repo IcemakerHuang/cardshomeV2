@@ -10,6 +10,7 @@ module.exports = {
     '@vue/standard'
   ],
   rules: {
-    'vue/max-attributes-per-line': 'off'
+    'vue/max-attributes-per-line': 'off',
+    'vue/no-v-model-argument': 'off' // 關閉 no-v-model-argument 規則，允許你在 v-model 中使用參數 by copilot
   }
 }
