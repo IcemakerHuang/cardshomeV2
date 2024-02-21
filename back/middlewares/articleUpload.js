@@ -27,7 +27,7 @@ const articleUpload = multer({
 })
 
 export default (req, res, next) => {
-  articleUpload.single('images')(req, res, error => { // single('image') -> 限制只能上傳一張圖片
+  articleUpload.single('image')(req, res, error => { // single('image') -> 限制只能上傳一張圖片
     if (error instanceof multer.MulterError) {
       let message = '文章圖片上傳錯誤'
       if (error.code === 'LIMIT_FILE_SIZE') {

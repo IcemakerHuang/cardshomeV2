@@ -69,33 +69,20 @@
             <v-row>
               <v-col cols="6" class="d-flex justify-space-between">
                 <!-- 文章日期 -->
-                <v-dialog width="500">
-                  <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" text="選擇文章日期"> </v-btn>
+                <v-menu v-model="menu" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                    v-model="date.value.value"
+                    label="選擇日期" prepend-icon="mdi-calendar" readonly v-bind="attrs"
+                    v-on="{ ...on, click: () => menu = true }">
+                  </v-text-field>
                   </template>
-
-                  <template v-slot:default="{ isActive }">
-                    <v-card title="選擇日期">
-                      <v-card class="d-flex justify-center">
-                        <v-date-picker
-                        ></v-date-picker>
-                      </v-card>
-
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          text="關閉"
-                          color="red"
-                          @click="isActive.value = false"
-                        ></v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </template>
-                </v-dialog>
+                  <v-date-picker v-model="date.value.value" @input="menu = false"></v-date-picker>
+                </v-menu>
                 <!-- 文章啟用 -->
                 <v-checkbox
                   class="d-flex align-self-start"
-                  label="是否啟用"
+                  label="是否啟用文章"
                   v-model="sell.value.value"
                   :error-messages="sell.errorMessage.value"
                 ></v-checkbox>
@@ -139,6 +126,7 @@
             <v-spacer></v-spacer>
             <v-btn color="red" :disabled="isSubmitting" @click="closeDialog">取消</v-btn>
             <v-btn color="green" type="submit" :loading="isSubmitting">送出</v-btn>
+            <pre>{{ errors }}</pre>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -168,6 +156,10 @@ const createSnackbar = useSnackbar()
 
 const fileAgent = ref(null)
 
+// 日期選擇器的開啟狀態
+const menu = ref(false)
+const dateField = ref(null)
+
 // 表單對話框的開啟狀態
 const dialog = ref(false)
 
@@ -176,6 +168,7 @@ const dialogId = ref('')
 
 // 打開文章編輯對話框
 const openArticleDialog = (item) => {
+  console.log('打開文章編輯對話框')
   if (item) {
     dialogId.value = item._id
     title.value.value = item.title
@@ -185,6 +178,7 @@ const openArticleDialog = (item) => {
     description.value.value = item.description
     category.value.value = item.category
     sell.value.value = item.sell
+    console.log('打開文章編輯對話框/各種.value.value = item.各種')
   } else {
     dialogId.value = ''
   }
@@ -203,7 +197,6 @@ const categories = ['地區回饋', '愛心公益', '學校認同', '市民卡',
 const schema = yup.object({
   title: yup.string().required('缺少標題名稱'),
   author: yup.string().required('缺少作者名稱'),
-  image: yup.string().required('缺少認同卡圖片'),
   date: yup.date().required('缺少文章日期'),
   description: yup.string().required('缺少文章內容'),
   category: yup.string()
@@ -218,13 +211,13 @@ const schema = yup.object({
 // handleSubmit處理使用者送出表單時
 // isSubmitting判斷是否送出中
 // resetForm把對話框關閉時要重置
-const { handleSubmit, isSubmitting, resetForm } = useForm({
+const { handleSubmit, isSubmitting, resetForm, errors } = useForm({
   validationSchema: schema,
   initialValues: {
     title: '',
     author: '',
     image: '',
-    date: '',
+    date: new Date(),
     description: '',
     category: '',
     sell: false
@@ -245,6 +238,7 @@ const rawFileRecords = ref([]) // vue file agent 功能，用來存放上傳的�
 
 // const submit = handleSubmit(async (values) 用途是：點擊送出按鈕會觸發 handleSubmit ，並且傳入一個回調函數，這個回調函數會在表單驗證成功後執行。
 const submit = handleSubmit(async (values) => {
+  console.log('點擊送出按鈕會觸發 handleSubmit')
   if (fileRecords.value[0]?.error) return // 防止在有錯誤的情況下提交表單(擋住不給使用者送出)。
   if (dialogId.value === '' && fileRecords.value.length === 0) return // 如果都是空的，代表我現在在新增->判斷現在是新增還是編輯
   try {
@@ -327,7 +321,7 @@ const tableSearch = ref('')
 const tableLoadItems = async () => { // 當表格載入新資料時，執行以下程式碼
   tableLoading.value = true // 表格開始要載入了(載入中)
   try {
-    const { data } = await apiAuth.get('/products/all', {
+    const { data } = await apiAuth.get('/articles/all', { // 發請求要資料
       params: {
         page: tablePage.value,
         itemsPerPage: tableItemsPerPage.value,
