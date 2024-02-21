@@ -67,24 +67,34 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="6">
+              <v-col cols="6" class="d-flex justify-space-between">
                 <!-- 文章日期 -->
                 <v-dialog width="500">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" text="文章日期"></v-btn>
+                    <v-btn v-bind="props" text="選擇文章日期"> </v-btn>
                   </template>
 
                   <template v-slot:default="{ isActive }">
-                    <v-card title="選擇時間">
-                      <v-date-picker label="文章日期"
-                      v-model="date.value.value"
-                      :error-messages="date.errorMessage.value"
-                      ></v-date-picker>
+                    <v-card title="選擇日期">
+                      <v-card class="d-flex justify-center">
+                        <v-date-picker
+                        ></v-date-picker>
+                      </v-card>
+
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          text="關閉"
+                          color="red"
+                          @click="isActive.value = false"
+                        ></v-btn>
+                      </v-card-actions>
                     </v-card>
                   </template>
                 </v-dialog>
                 <!-- 文章啟用 -->
                 <v-checkbox
+                  class="d-flex align-self-start"
                   label="是否啟用"
                   v-model="sell.value.value"
                   :error-messages="sell.errorMessage.value"
@@ -350,4 +360,5 @@ const tableApplySearch = () => {
   tablePage.value = 1
   tableLoadItems()
 }
+
 </script>
