@@ -159,7 +159,6 @@ const fileAgent = ref(null)
 
 // 日期選擇器的開啟狀態
 const menu = ref(false)
-const dateField = ref(null)
 
 // 表單對話框的開啟狀態
 const dialog = ref(false)
@@ -179,7 +178,7 @@ const openArticleDialog = (item) => {
     description.value.value = item.description
     category.value.value = item.category
     sell.value.value = item.sell
-    console.log('打開文章編輯對話框/各種.value.value = item.各種')
+    console.log('打開文章編輯對話框/xxx.value.value = item.xxx')
   } else {
     dialogId.value = ''
   }
@@ -189,7 +188,9 @@ const openArticleDialog = (item) => {
 const closeDialog = () => {
   dialog.value = false
   resetForm()
-  fileAgent.value.deleteFileRecord()
+  while (fileRecords.value.length > 0) { // 關閉對話框時，刪除上傳的檔案 by ww
+    fileAgent.value.deleteFileRecord(fileRecords.value[0])
+  }
 }
 
 // 分類 //用 :items="categories" 綁定
@@ -305,12 +306,13 @@ const tablePage = ref(1)
 const tableProducts = ref([])
 // 表格欄位設定
 const tableHeaders = [
-  { title: '圖片', align: 'center', sortable: false, key: 'image' },
-  { title: '名稱', align: 'center', sortable: true, key: 'name' },
-  { title: '申請費用', align: 'center', sortable: true, key: 'price' },
-  // { title: '說明', align: 'center', sortable: true, key: 'description' },
-  { title: '分類', align: 'center', sortable: true, key: 'category' },
-  { title: '上架', align: 'center', sortable: true, key: 'sell' },
+  { title: '文章首圖', align: 'center', sortable: false, key: 'image' },
+  { title: '文章標題', align: 'center', sortable: true, key: 'title' },
+  { title: '文章作者', align: 'center', sortable: true, key: 'author' },
+  // { title: '文章內容', align: 'center', sortable: true, key: 'description' },
+  { title: '文章分類', align: 'center', sortable: true, key: 'category' },
+  { title: '發布內容', align: 'center', sortable: true, key: 'date' },
+  { title: '是否上架', align: 'center', sortable: true, key: 'sell' },
   { title: '編輯', align: 'center', sortable: false, key: 'edit' }
 ]
 // 表格載入狀態

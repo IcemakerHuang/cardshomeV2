@@ -159,7 +159,8 @@ export const edit = async (req, res) => {
   try {
     if (!validator.isMongoId(req.params.id)) throw new Error('ID')
 
-    req.body.image = req.file?.path
+    // req.body.image = req.file?.path // ! 原本
+    req.body.image = req.files.map(file => file.path)
     await articles.findByIdAndUpdate(req.params.id, req.body, { runValidators: true }).orFail(new Error('NOT FOUND'))
 
     res.status(StatusCodes.OK).json({
