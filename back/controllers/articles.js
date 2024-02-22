@@ -5,7 +5,8 @@ import validator from 'validator' // validator 是字符串驗證和清理（san
 
 export const create = async (req, res) => { // 用途：新增商品
   try {
-    req.body.image = req.file.path
+    // req.body.image = req.file.path
+    req.body.image = req.files.map(file => file.path)
     const result = await articles.create(req.body)
     res.status(StatusCodes.OK).json({
       success: true,
@@ -21,9 +22,10 @@ export const create = async (req, res) => { // 用途：新增商品
         message
       })
     } else {
+      console.log('controllers未知錯誤')
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         success: false,
-        message: '未知錯誤'
+        message: 'create未知錯誤'
       })
     }
   }

@@ -5,7 +5,9 @@ import validator from 'validator' // validator 是字符串驗證和清理（san
 
 export const create = async (req, res) => { // 用途：新增商品
   try {
-    req.body.image = req.file.path
+    console.log('back/controllers新增商品create')
+    // req.body.image = req.file.path // -! 原本的
+    req.body.image = req.files.map(file => file.path)
     const result = await products.create(req.body)
     res.status(StatusCodes.OK).json({
       success: true,

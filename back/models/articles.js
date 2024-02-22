@@ -10,7 +10,7 @@ const schema = new Schema({
     required: [true, '缺少作者名稱']
   },
   image: {
-    type: String,
+    type: [String],
     required: [true, '缺少認同卡圖片']
   },
   date: {

@@ -22,8 +22,8 @@ const user = useUserStore()
 
 const navItems = [
   { to: '/admin/article', text: '文章管理', icon: 'mdi-shopping' },
-  { to: '/admin/products', text: '商品管理', icon: 'mdi-shopping' },
-  { to: '/admin/orders', text: '訂單管理', icon: 'mdi-list-box' },
+  { to: '/admin/products', text: '認同卡管理', icon: 'mdi-shopping' },
+  { to: '/admin/orders', text: '申請管理', icon: 'mdi-list-box' },
   { to: '/', text: '回首頁', icon: 'mdi-home' }
 ]
 // 12/28 上傳大頭貼

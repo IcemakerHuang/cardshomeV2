@@ -33,7 +33,7 @@
             ></v-text-field>
           </template>
           <template v-slot:item.image="{ item }">
-            <v-img :src="item.image" height="50px"></v-img>
+            <v-img :src="item.image[0]" height="50px"></v-img>
           </template>
           <template v-slot:item.sell="{ item }">
             <v-icon icon="mdi-check" v-if="item.sell"></v-icon>
@@ -110,12 +110,13 @@
               <v-col cols="12">
                 <vue-file-agent
                   v-model="fileRecords"
-                  v-model:rawModelValue="rawFileRecords"
+                  v-model:raw-model-value="rawFileRecords"
+                  multiple
                   accept="image/jpeg,image/png"
                   deletable
                   :error-text="{type: '檔案格式不支援', size: '檔案超過 1MB 大小限制'}"
                   help-text="選擇檔案或拖曳到這裡"
-                  :max-files="1"
+                  :max-files="3"
                   max-size="1MB"
                   ref="fileAgent"
                 ></vue-file-agent>
@@ -246,11 +247,14 @@ const submit = handleSubmit(async (values) => {
     // 使用 fd.append(欄位, 值) 將資料放進去
     const fd = new FormData()
     for (const key in values) { // 用 for...in 迴圈將 values 物件內所有key值放進 FormData 物件裡
-      fd.append(key, values[key])
+      fd.append(key, values[key]) // 一個一個加進去
     }
 
     if (fileRecords.value.length > 0) {
-      fd.append('image', fileRecords.value[0].file)
+      // fd.append('image', fileRecords.value[0].file) //! 原本的
+      for (const file of fileRecords.value) {
+        fd.append('image', file.file)
+      }
     }
 
     // 判斷你是新增還是編輯，決定你向哪個路徑發請求

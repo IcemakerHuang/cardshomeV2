@@ -44,9 +44,10 @@ export const jwt = (req, res, next) => {
           message: 'JWT 無效'
         })
       } else if (info.message === '未知錯誤') {
+        console.log('jwt未知錯誤')
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
           success: false,
-          message: '未知錯誤'
+          message: 'jwt未知錯誤'
         })
       } else {
         // 其他錯誤

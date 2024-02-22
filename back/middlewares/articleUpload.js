@@ -22,12 +22,14 @@ const articleUpload = multer({
     }
   },
   limits: {
-    fileSize: 1024 * 1024 // 此為1 MB，限制檔案大小，不要太大容易用完流量
+    fileSize: 1024 * 1024, // 此為1 MB，限制檔案大小，不要太大容易用完流量
+    files: 3
   }
 })
 
 export default (req, res, next) => {
-  articleUpload.single('image')(req, res, error => { // single('image') -> 限制只能上傳一張圖片
+  articleUpload.array('image', 3)(req, res, error => { // !修改: .array('image', 10) -> 傳10張圖片
+    console.log('中間件articleUpload多圖片上傳')
     if (error instanceof multer.MulterError) {
       let message = '文章圖片上傳錯誤'
       if (error.code === 'LIMIT_FILE_SIZE') {
