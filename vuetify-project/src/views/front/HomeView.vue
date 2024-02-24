@@ -1,5 +1,5 @@
 <template>
-<v-container>
+<v-container class="custom-font">
   <!-- 首頁輪播 -->
   <v-row>
     <v-carousel
@@ -38,8 +38,8 @@
       <h1>最新文章</h1>
     </v-col>
     <v-divider></v-divider>
-    <v-col cols="12" md="6" lg="3" v-for="product in products" :key="product._id">
-      <product-card v-bind="product" />
+    <v-col cols="12" md="6" lg="3" v-for="article in articles" :key="article._id">
+      <product-card v-bind="article" />
     </v-col>
   </v-row>
 </v-container>
@@ -58,15 +58,25 @@ const { api } = useApi()
 const createSnackbar = useSnackbar()
 
 const products = ref([])
+const articles = ref([])
 
 onMounted(async () => {
   try {
+    // 最新認同卡列表
     const { data } = await api.get('/products', {
       params: {
         itemsPerPage: -1 // 設 -1 讓 back/controllers/products.js 回傳所有商品
       }
     })
     products.value.push(...data.result.data)
+    // 文章列表
+    const { data: articlesData } = await api.get('/articles', {
+      params: {
+        itemsPerPage: -1 // 設 -1 讓 back/controllers/products.js 回傳所有商品
+      }
+    })
+    articles.value.push(...articlesData.result.data)
+
     await nextTick()
     gsap // 商品卡做動畫效果
       .to('.product-card', { opacity: 1, duration: 0.5 })
@@ -113,4 +123,14 @@ const slides = ref([
 <style scoped lang="sass">
 .product-card
   opacity: 0
+.product-card
+  opacity: 0
+
+@font-face
+  font-family: 'Openhuninn'
+  src: url('@/assets/jf-openhuninn-2.0.ttf') format('truetype')
+
+.custom-font
+  font-family: 'Openhuninn', sans-serif
+
 </style>

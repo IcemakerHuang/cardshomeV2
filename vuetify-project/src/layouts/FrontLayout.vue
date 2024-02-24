@@ -1,6 +1,6 @@
 <template>
 <!-- 導覽列 -->
-<VAppBar color="primary">
+<VAppBar color="primary" class="custom-font">
   <VContainer class="d-flex align-center">
     <VBtn to="/" :active="false">
       <VAppBarTitle>卡底家</VAppBarTitle>
@@ -125,3 +125,12 @@ const logout = async () => {
 }
 
 </script>
+
+<style scoped lang="sass">
+@font-face
+  font-family: 'Openhuninn'
+  src: url('@/assets/jf-openhuninn-2.0.ttf') format('truetype')
+
+.custom-font
+  font-family: 'Openhuninn', sans-serif
+</style>
