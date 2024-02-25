@@ -99,11 +99,13 @@
 
             <v-row>
               <v-col cols="12">
-                <v-textarea
+                <!-- <v-textarea
                   label="文章內容"
                   v-model="description.value.value"
-                  :error-messages="description.errorMessage.value"
-                ></v-textarea>
+                  :error-messages="description.errorMessage.value"></v-textarea> -->
+                <WangEditor
+                  v-model="Course.courseDescriptionMarkdown"
+                ></WangEditor>
               </v-col>
             </v-row>
             <v-row>
@@ -127,7 +129,7 @@
             <v-spacer></v-spacer>
             <v-btn color="red" :disabled="isSubmitting" @click="closeDialog">取消</v-btn>
             <v-btn color="green" type="submit" :loading="isSubmitting">送出</v-btn>
-            <pre>{{ errors }}</pre>
+            <!-- <pre>{{ errors }}</pre> -->
           </v-card-actions>
         </v-card>
       </v-form>
@@ -136,26 +138,25 @@
 </template>
 
 <script setup>
-// VDataTableServer 的案例，我可以理解  v-model 是將會變動的參數與前端的按鈕(或是任何形式的物件)，彼此連結起來，一旦後端提供出來參數有變動，這個變動值就會同步更新的前端物件裡，被暫時存放著，對嗎？
-// 是的，你的理解是正確的。在 Vue.js 中，v-model 是一種雙向數據綁定的語法糖，它可以讓你在元件和父組件之間同步數據。也就是說，當這些參數的值變化時，對應的 VDataTableServer 元件的屬性也會跟著變化，反之亦然。
-// @update 表示當 items-per-page、sort-by 和 page 的值更新時，會執行 tableLoadItems 函數。重新從伺服器獲取數據，並更新 tableProducts 和 tableItemsLength，用來更新表格。
-
-// template(#top) 是 Vue 的插槽（slot）的語法。插槽是 Vue 組件中的一種功能，它允許你在不同的組件之間重用和組合代碼。
-// 在這個例子中，template(#top) 創建了一個名為 "top" 的具名插槽。這個插槽可以被父組件(應該是 VDataTableServer)填充，也就是說，父組件可以在這個插槽中插入自己的模板或組件。
-// 插槽的概念可以比喻為一個背包。你可以將背包（插槽）給別人（其他組件），然後他們可以在背包裡放任何他們想放的東西（模板或組件）。這樣，背包的主人（插槽的創建者）就可以在需要的地方使用這個背包，而不需要關心背包裡具體有什麼，這就實現了代碼的重用和組合。
-// 上方為<template> 註解，請用搜尋找
-
-// 下方為 <script setup> 裡的程式碼
 import { ref } from 'vue'
 import * as yup from 'yup' // 引入 yup 進行商品登錄表單驗證
 import { useForm, useField } from 'vee-validate' // 表單驗證套件，它可以幫助你輕鬆地驗證表單的輸入值，並管理錯誤訊息和表單狀態。
 import { useApi } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog'
+import WangEditor from '@/components/WangEditor.vue'
+import { CountryCodes } from 'validator/lib/isISO31661Alpha2'
 
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
 
 const fileAgent = ref(null)
+
+// 富文本編輯器
+// courseDescriptionMarkdown 初始值
+const Course = ref({
+  courseDescriptionMarkdown: '請輸入文字',
+  status: 1
+})
 
 // 日期選擇器的開啟狀態
 const menu = ref(false)
