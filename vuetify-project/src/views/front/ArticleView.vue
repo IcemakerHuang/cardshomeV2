@@ -3,16 +3,27 @@ VContainer
   VRow
     VCol(cols="12")
       h1 {{ article.title }}
+  VRow
     VCol(cols="12" md="6")
-      VImg(:src="article.image")
+      //- VImg(:src="article.image")
+      v-carousel(height="400" hide-delimiters progress="primary")
+        v-carousel-item(v-for="(slide, i) in article.image" :key="i")
+          v-sheet(height="100%")
+            .d-flex.fill-height.justify-center.align-center
+              .text-h2
+              img(v-if="slide" :src="slide")
+  VRow
     VCol(cols="12" md="6")
       p {{ article.author }}
-      p(style="white-space: pre;") {{ article.description }}
+  VRow
+    VCol(cols="12" md="6")
+      Div
+        p(style="white-space: pre;") {{ article.description }}
       //- 購物車數量
       //- isSubmitting 送出的時候，讓按鈕變成 loading 載入狀態 -> 表單會被禁用，防止重複提交。
-      VForm(:disabled="isSubmitting" @submit.prevent="submit")
-        VTextField(type="number" min="0" v-model.number="quantity.value.value" :error-messages="quantity.errorMessage.value")
-        VBtn(type="submit" prepend-icon="mdi-cart" :loading="isSubmitting") 加入購物車
+      //- VForm(:disabled="isSubmitting" @submit.prevent="submit")
+      //-   VTextField(type="number" min="0" v-model.number="quantity.value.value" :error-messages="quantity.errorMessage.value")
+      //-   VBtn(type="submit" prepend-icon="mdi-cart" :loading="isSubmitting") 加入購物車
 //- 商品已下架的呈現
 VOverlay.align-center.justify-center.text-center(:model-value="!article.sell" persistent)
   h1.text-red.text-h1 已下架
