@@ -45,6 +45,53 @@ const article = ref({
   category: ''
 })
 
+// 驗證使用者輸入 VForm 的值是否正確
+const schema = yup.object({
+  quantity: yup.number().typeError('缺少數量').required('缺少數量').min(1, '數量最小為 1')
+})
+const { isSubmitting, handleSubmit } = useForm({
+  validationSchema: schema,
+  initialValues: {
+    quantity: 1
+  }
+})
+const quantity = useField('quantity') // 驗證完後，將數量的值送進 quantity.value.value
+
+// 送出購物車資訊後(透過 VForm) ，將數量的值送進後端資料庫並更新 pinia 管理的 user.cart 狀態 (影響購物車提示數量)
+const submit = handleSubmit(async (values) => {
+  if (!user.isLogin) {
+    router.push('/login')
+    return
+  }
+  try {
+    const { data } = await apiAuth.patch('/users/cart', {
+      product: product.value._id,
+      quantity: values.quantity
+    })
+    user.cart = data.result
+    createSnackbar({
+      text: '新增成功',
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'green',
+        location: 'bottom'
+      }
+    })
+  } catch (error) {
+    const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
+    createSnackbar({
+      text,
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'red',
+        location: 'bottom'
+      }
+    })
+  }
+})
+
 //  Vue 生命週期 onMounted 正在將後端資料，用 api.get 渲染到前台頁面(article 物件)
 onMounted(async () => {
   try {

@@ -1,32 +1,35 @@
 <template>
 <!-- 導覽列 -->
-<VAppBar color="primary" class="custom-font">
+<VAppBar color="white" class="custom-font">
   <VContainer class="d-flex align-center">
-    <VBtn to="/" :active="false">
-      <VAppBarTitle>卡底家</VAppBarTitle>
+    <div class="logo ml-6">
+      <v-img src="https://raw.githubusercontent.com/IcemakerHuang/cardshome_data/main/logo/logo_v2.png"  contain aspect-ratio="1"></v-img>
+    </div>
+    <VBtn to="/" :active="false" color="orange">
+      <VAppBarTitle class="logo-title">卡底家 Cardshome</VAppBarTitle>
     </VBtn>
   </VContainer>
   <VContainer class="d-flex flex-row-reverse">
     <VBtn to="/" :active="false">
-      <VAppBarTitle>論壇</VAppBarTitle>
+      <VAppBarTitle class="nav-title">論壇</VAppBarTitle>
     </VBtn>
     <VBtn to="/" :active="false">
-      <VAppBarTitle>認同卡</VAppBarTitle>
+      <VAppBarTitle class="nav-title">認同卡</VAppBarTitle>
     </VBtn>
     <VBtn to="/" :active="false">
-      <VAppBarTitle>討論區</VAppBarTitle>
+      <VAppBarTitle class="nav-title">討論區</VAppBarTitle>
     </VBtn>
   </VContainer>
   <VSpacer></VSpacer>
   <!-- 電腦版導覽列 -->
   <!-- 根據用戶登入狀態動態顯示導航項目 -->
   <template v-for="item in navItems" >
-    <VBtn :to="item.to" :prepend-icon="item.icon" v-if="item.show" :key="item.to">{{ item.text }}
+    <VBtn :to="item.to" :prepend-icon="item.icon" v-if="item.show" :key="item.to" color="black">{{ item.text }}
       <!-- 購物車數量標籤 -->
       <v-badge color="error" :content="user.cart" v-if="item.to === '/cart'" floating></v-badge>
     </VBtn>
   </template>
-  <VBtn v-if="!user.isLogin" to="/login" prepend-icon="mdi-login">登入
+  <VBtn v-if="!user.isLogin" to="/login" prepend-icon="mdi-login" class="rounded-pill bg-pink-lighten-2" color="black">登入
     <!-- v-if="!user.isLogin" @click="logout" -->
     <v-dialog
       v-model="dialog"
@@ -55,7 +58,7 @@
       </v-card>
     </v-dialog>
   </VBtn>
-  <VBtn prepend-icon="mdi-logout" v-if="user.isLogin" @click="logout">登出</VBtn>
+  <VBtn prepend-icon="mdi-logout" v-if="user.isLogin" @click="logout" color="black">登出</VBtn>
 </VAppBar>
 <!-- 頁面內容 -->
 <VMain>
@@ -127,6 +130,25 @@ const logout = async () => {
 </script>
 
 <style scoped lang="sass">
+.logo
+  width: 50px
+  height: 50px
+.logo-title
+  font-size: 25px
+  font-weight: bold
+  color: #f15946
+.logo-title
+  background: linear-gradient(to top, #e01a4f, #d76d77, #ffaf7b)
+  background: -webkit-linear-gradient(to top, #e01a4f, #d76d77, #ffaf7b)
+  background-clip: text
+  -webkit-background-clip: text
+  color: transparent
+
+.nav-title
+  font-size: 20px
+  font-weight: bold
+  color: #0c090d
+
 @font-face
   font-family: 'Openhuninn'
   src: url('@/assets/jf-openhuninn-2.0.ttf') format('truetype')

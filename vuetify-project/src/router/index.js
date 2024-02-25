@@ -48,6 +48,16 @@ const routes = [
         }
       },
       {
+        path: 'articles/:id',
+        name: 'Article',
+        component: () => import('@/views/front/ArticleView.vue'),
+        meta: {
+          title: '卡底家 | 文章',
+          login: false,
+          admin: false
+        }
+      },
+      {
         path: 'cart',
         name: 'Cart',
         component: () => import('@/views/front/CartView.vue'),

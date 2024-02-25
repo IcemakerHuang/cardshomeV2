@@ -11,6 +11,7 @@ module.exports = {
   ],
   rules: {
     'vue/max-attributes-per-line': 'off',
-    'vue/no-v-model-argument': 'off' // 關閉 no-v-model-argument 規則，允許你在 v-model 中使用參數 by copilot
+    'vue/no-v-model-argument': 'off', // 關閉 no-v-model-argument 規則，允許你在 v-model 中使用參數 by copilot
+    'vue/no-multiple-template-root': 'off' // 關閉 no-multiple-template-root 規則，允許模板有多個根元素
   }
 }
