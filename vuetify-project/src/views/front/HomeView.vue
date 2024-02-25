@@ -39,7 +39,7 @@
     </v-col>
     <v-divider></v-divider>
     <v-col cols="12" md="6" lg="3" v-for="article in articles" :key="article._id">
-      <product-card v-bind="article" />
+      <article-card v-bind="article" />
     </v-col>
   </v-row>
 </v-container>
@@ -49,7 +49,8 @@
 import { ref, onMounted, nextTick } from 'vue'
 import { useApi } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog' // 提供錯誤訊息
-import ProductCard from '@/components/ProductCard.vue' // .vue都會經歷生命週期
+import ProductCard from '@/components/ProductCard.vue'
+import ArticleCard from '@/components/ArticleCard.vue' // .vue都會經歷生命週期
 // 生命週期是指元件（.vue）會經歷創建、掛載、更新和銷毀等過程。
 
 import gsap from 'gsap'
@@ -69,6 +70,7 @@ onMounted(async () => {
       }
     })
     products.value.push(...data.result.data)
+    await nextTick()
     // 文章列表
     const { data: articlesData } = await api.get('/articles', {
       params: {
@@ -99,10 +101,10 @@ onMounted(async () => {
 // 使用 ref 創建響應式變量
 const items = ref([
   {
-    src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
+    src: 'https://raw.githubusercontent.com/IcemakerHuang/cardshome_data/main/Carousel/NPOCreditCard.jpg'
   },
   {
-    src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
+    src: 'https://raw.githubusercontent.com/IcemakerHuang/cardshome_data/main/Carousel/CTBCNPO2.jpg'
   },
   {
     src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'

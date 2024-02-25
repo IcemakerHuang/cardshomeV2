@@ -1,8 +1,8 @@
 <template>
   <!-- 商品列表 -->
   <!-- VCard 的 .product-card 是 css 標籤 -->
-  <v-card class="article-card">
-    <v-img :src="image" cover height="200"></v-img>
+  <v-card class="article-card" hover>
+    <!-- <v-img :src="image" cover height="200"></v-img> -->
     <v-card-title>
       <!-- 連結到詳細商品頁 -->
       <router-link class="text-primary text-decoration-none" :to="'/articles/' + _id">
@@ -10,13 +10,19 @@
       </router-link>
     </v-card-title>
     <v-card-subtitle>
-      ${{ author }}
+      {{ author }}
     </v-card-subtitle>
+    <v-card-text>
+      <!-- <v-carousel show-arrows="hover">
+        <v-carousel-item cover ></v-carousel-item>
+      </v-carousel> -->
+      <v-img :src="image[0]" cover height="200"></v-img>
+    </v-card-text>
     <v-card-text style="white-space: pre;">
       {{ description }}
     </v-card-text>
     <v-card-actions>
-      <v-btn color="primary" prepend-icon="mdi-cart" @click="addCart">
+      <v-btn color="primary" prepend-icon="mdi-cards-playing-outline" @click="addCart">
         我想申辦
       </v-btn>
       <v-btn value="favorites">

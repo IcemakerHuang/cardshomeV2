@@ -1,27 +1,30 @@
 <template>
   <!-- 商品列表 -->
   <!-- VCard 的 .product-card 是 css 標籤 -->
-  <v-card class="product-card">
-    <v-img :src="image" cover height="200"></v-img>
+  <v-card class="product-card rounded-lg d-flex flex-column justify-center" hover>
+    <div class="overflow-hidden">
+      <v-img :src="image" cover height="200" class="img-enlarge"></v-img>
+    </div>
     <v-card-title>
       <!-- 連結到詳細商品頁 -->
       <router-link class="text-primary text-decoration-none" :to="'/products/' + _id">
         {{ name }}
       </router-link>
     </v-card-title>
-    <v-card-subtitle>
+    <!-- <v-card-subtitle>
       ${{ price }}
-    </v-card-subtitle>
-    <v-card-text style="white-space: pre;">
-      {{ description }}
+    </v-card-subtitle> -->
+    <v-card-text style="white-space: pre;" >
+      <div class="text-overflow ma-1">{{ description }}</div>
     </v-card-text>
-    <v-card-actions>
-      <v-btn color="primary" prepend-icon="mdi-cart" @click="addCart">
+    <v-card-actions class="justify-space-between">
+      <v-btn color="primary" prepend-icon="mdi-cards-playing-outline" @click="addCart">
         我想申辦
       </v-btn>
-      <v-btn value="favorites">
+      <v-btn value="favorites" color="pink">
         <v-icon>mdi-heart</v-icon>
-        <span>Favorites</span>
+        <span></span>
+        加入收藏
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -74,3 +77,27 @@ const addCart = async () => {
   }
 }
 </script>
+
+<style>
+/* 換行 */
+.text-overflow {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 放大圖片 */
+.overflow-hidden {
+  overflow: hidden;
+}
+.img-enlarge{
+  overflow:hidden;
+  transform:scale(1,1);
+  transition: all 2s ease-out;
+}
+
+.img-enlarge:hover {
+  transform: scale(1.2, 1.2);
+}
+</style>
