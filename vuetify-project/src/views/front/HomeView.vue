@@ -107,6 +107,7 @@ onMounted(async () => {
     await nextTick()
     gsap // 商品卡做動畫效果
       .to('.product-card', { opacity: 1, duration: 0.5 })
+      .to('.article-card', { opacity: 1, duration: 0.5 })
   } catch (error) {
     console.log(error)
     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
