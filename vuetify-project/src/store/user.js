@@ -11,7 +11,10 @@ export const useUserStore = defineStore('user', () => {
   const account = ref('')
   const email = ref('')
   const cart = ref(0)
+  const phone = ref('')
   const role = ref(UserRole.USER)
+  const _id = ref('')
+  const avatar = ref('')
 
   const login = (data) => {
     if (data.token) {
@@ -19,8 +22,11 @@ export const useUserStore = defineStore('user', () => {
     }
     account.value = data.account
     email.value = data.email
+    phone.value = data.phone
     cart.value = data.cart
     role.value = data.role
+    _id.value = data._id
+    avatar.value = data.avatar
   }
 
   const isLogin = computed(() => {
@@ -46,14 +52,20 @@ export const useUserStore = defineStore('user', () => {
     token.value = ''
     account.value = ''
     email.value = ''
+    phone.value = ''
     cart.value = 0
+    _id.value = ''
     role.value = UserRole.USER
+    avatar.value = ''
   }
 
   return {
+    avatar,
     token,
+    _id,
     account,
     email,
+    phone,
     cart,
     role,
     login,

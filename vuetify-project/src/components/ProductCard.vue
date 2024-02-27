@@ -16,6 +16,7 @@
     </v-card-subtitle> -->
     <v-card-text style="white-space: pre;" >
       <div class="text-overflow ma-1">{{ description }}</div>
+
     </v-card-text>
     <v-card-actions class="justify-space-between">
       <v-btn color="primary" prepend-icon="mdi-cards-playing-outline" @click="addCart">

@@ -55,7 +55,10 @@ export const login = async (req, res) => {
         account: req.user.account,
         email: req.user.email,
         role: req.user.role,
-        cart: req.user.cartQuantity
+        phone: req.user.phone,
+        cart: req.user.cartQuantity,
+        _id: req.user._id,
+        avatar: req.user.avatar
       }
     })
   } catch (error) {
@@ -110,7 +113,10 @@ export const getProfile = (req, res) => {
         account: req.user.account,
         email: req.user.email,
         role: req.user.role,
-        cart: req.user.cartQuantity
+        cart: req.user.cartQuantity,
+        phone: req.user.phone,
+        _id: req.user._id,
+        avatar: req.user.avatar
       }
     })
   } catch (error) {
@@ -218,7 +224,7 @@ export const edit = async (req, res) => {
       message: ''
     })
   } catch (error) {
-    console.log(error)
+    console.log('ID 格式錯誤_個人資料')
     if (error.name === 'CastError' || error.message === 'ID') {
       res.status(StatusCodes.BAD_REQUEST).json({
         success: false,

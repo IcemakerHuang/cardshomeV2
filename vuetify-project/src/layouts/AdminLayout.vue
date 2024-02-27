@@ -2,7 +2,7 @@
 VNavigationDrawer(permanent)
   VList
     // -! copliet有修改 prepend-avatar
-    VListItem(:prepend-avatar="prependAvatar" :title="user.account")
+    VListItem(:prepend-avatar="user.avatar" :title="user.account" to="/admin")
     //- 大頭貼
   VDivider
   VList

@@ -19,7 +19,8 @@
       <v-img :src="image[0]" cover height="200"></v-img>
     </v-card-text>
     <v-card-text style="white-space: pre;">
-      {{ description }}
+      <!-- {{ description }} -->
+      <div v-html="description" class="text-overflow"></div>
     </v-card-text>
     <v-card-actions>
       <v-btn color="primary" prepend-icon="mdi-cards-playing-outline" @click="addCart">
@@ -80,3 +81,27 @@ const addCart = async () => {
   }
 }
 </script>
+
+<style>
+/* 換行 */
+.text-overflow {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 放大圖片 */
+.overflow-hidden {
+  overflow: hidden;
+}
+.img-enlarge{
+  overflow:hidden;
+  transform:scale(1,1);
+  transition: all 2s ease-out;
+}
+
+.img-enlarge:hover {
+  transform: scale(1.2, 1.2);
+}
+</style>

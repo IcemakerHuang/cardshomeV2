@@ -104,8 +104,7 @@
                   v-model="description.value.value"
                   :error-messages="description.errorMessage.value"></v-textarea> -->
                 <WangEditor
-                  v-model="Course.courseDescriptionMarkdown"
-                ></WangEditor>
+                  v-model="description.value.value"></WangEditor>
               </v-col>
             </v-row>
             <v-row>

@@ -20,13 +20,15 @@ VContainer(class="custom-font mb-6")
     VCol(cols="4")
       p 作者：{{ article.author }}
     VCol(cols="4")
-      p(v-if="article.date && article.date instanceof Date") {{ article.date.toLocaleString() }}
+      //- p {{ article.date.toLocaleString() }}
+      p {{ new Date(article.date).toLocaleString() }}
     VCol(cols="2")
   VRow
     VCol(cols="2")
     VCol(cols="8")
       Div(class="d-flex justify-center align-center mb-6")
-        p(style="white-space: pre-line;") {{ article.description }}
+        //- p(style="white-space: pre-line;") {{ article.description }}
+        Div(v-html="article.description")
     VCol(cols="2")
 //- 商品已下架的呈現
 VOverlay.align-center.justify-center.text-center(:model-value="!article.sell" persistent)
