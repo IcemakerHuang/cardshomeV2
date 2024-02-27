@@ -48,6 +48,16 @@ const routes = [
         }
       },
       {
+        path: 'allproductView',
+        name: 'AllproductView',
+        component: () => import('@/views/front/AllproductView.vue'),
+        meta: {
+          title: '卡底家 | 所有認同卡',
+          login: false,
+          admin: false
+        }
+      },
+      {
         path: 'articles/:id',
         name: 'Article',
         component: () => import('@/views/front/ArticleView.vue'),

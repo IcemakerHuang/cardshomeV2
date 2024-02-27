@@ -13,7 +13,7 @@
     <VBtn to="/" :active="false">
       <VAppBarTitle class="nav-title">論壇</VAppBarTitle>
     </VBtn>
-    <VBtn to="/" :active="false">
+    <VBtn to="/allproductView" :active="false">
       <VAppBarTitle class="nav-title">認同卡</VAppBarTitle>
     </VBtn>
     <VBtn to="/" :active="false">
